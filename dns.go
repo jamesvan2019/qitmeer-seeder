@@ -67,6 +67,7 @@ func (d *DNSServer) Start() {
 				return
 			}
 			domainName := strings.ToLower(dnsMsg.Question[0].Name)
+			fmt.Println("========request 00", domainName, d.hostname)
 			ff := strings.LastIndex(domainName, d.hostname)
 			if ff < 0 {
 				log.Printf("invalid name: %s",
