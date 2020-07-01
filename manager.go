@@ -160,7 +160,7 @@ func (m *Manager) AddAddresses(addrs []net.IP) int {
 		node := Node{
 			IP:       addr,
 			LastSeen: time.Now(),
-			Services:protocol.Full,
+			Services: protocol.Full,
 		}
 		m.nodes[addrStr] = &node
 		count++
@@ -182,7 +182,7 @@ func (m *Manager) Addresses() []net.IP {
 			break
 		}
 		if (!node.LastSuccess.IsZero() && now.Sub(node.LastSuccess) < defaultStaleTimeout) ||
-			(!node.LastAttempt.IsZero() &&now.Sub(node.LastAttempt) < defaultStaleTimeout) {
+			(!node.LastAttempt.IsZero() && now.Sub(node.LastAttempt) < defaultStaleTimeout) {
 			continue
 		}
 		addrs = append(addrs, node.IP)
@@ -209,13 +209,13 @@ func (m *Manager) GoodAddresses(qtype uint16, services protocol.ServiceFlag) []n
 		if i == 0 {
 			break
 		}
-
+		fmt.Println("==========node.IP1", node.IP)
 		if qtype == dns.TypeA && node.IP.To4() == nil {
 			continue
 		} else if qtype == dns.TypeAAAA && node.IP.To4() != nil {
 			continue
 		}
-
+		fmt.Println("==========node.IP2", node.IP)
 		if node.LastSuccess.IsZero() ||
 			now.Sub(node.LastSuccess) > defaultStaleTimeout {
 
@@ -225,11 +225,13 @@ func (m *Manager) GoodAddresses(qtype uint16, services protocol.ServiceFlag) []n
 			}
 
 		}
-
+		fmt.Println("==========node.IP3", node.IP)
 		// Does the node have the requested services?
 		if node.Services&services != services {
 			continue
 		}
+		fmt.Println("==========node.IP4", node.IP)
+		fmt.Println("==========", addrs)
 		addrs = append(addrs, node.IP)
 		i--
 	}
