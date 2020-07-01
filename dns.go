@@ -60,7 +60,7 @@ func (d *DNSServer) Start() {
 					addr, err)
 				return
 			}
-			fmt.Println("========request 0", dnsMsg)
+			fmt.Println("========request 0", dnsMsg.Question)
 			if len(dnsMsg.Question) != 1 {
 				log.Printf("%s sent more than 1 question: %d",
 					addr, len(dnsMsg.Question))
