@@ -60,6 +60,7 @@ func (d *DNSServer) Start() {
 					addr, err)
 				return
 			}
+			fmt.Println("========request 0")
 			if len(dnsMsg.Question) != 1 {
 				log.Printf("%s sent more than 1 question: %d",
 					addr, len(dnsMsg.Question))
@@ -72,7 +73,7 @@ func (d *DNSServer) Start() {
 					dnsMsg.Question[0].Name)
 				return
 			}
-
+			fmt.Println("========request 1")
 			wantedSF := protocol.Full
 			labels := dns.SplitDomainName(domainName)
 			if labels[0][0] == 'x' && len(labels[0]) > 1 {
@@ -84,7 +85,7 @@ func (d *DNSServer) Start() {
 				}
 				wantedSF = protocol.ServiceFlag(u)
 			}
-
+			fmt.Println("========request 2")
 			var atype string
 			qtype := dnsMsg.Question[0].Qtype
 			switch qtype {
